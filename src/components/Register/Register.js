@@ -72,7 +72,7 @@ const Register = () => {
   };
 
   const saveUser = (createdUser) => {
-    fetch("http://localhost:5000/users", {
+    fetch("https://admin-panel-server.vercel.app/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",

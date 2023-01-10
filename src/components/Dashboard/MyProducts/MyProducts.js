@@ -15,7 +15,7 @@ const MyProducts = () => {
     queryKey: ["report-product"],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/products?email=${user.email}`
+        `https://admin-panel-server.vercel.app/products?email=${user.email}`
       );
       const data = res.json();
       return data;
@@ -40,23 +40,33 @@ const MyProducts = () => {
               <table className="table w-full">
                 <thead>
                   <tr>
+                    <th></th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Status</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {products?.map((product) => (
                     <tr key={product._id}>
+                      <td></td>
                       <td>
-                        <div>
-                          <div className="font-bold">{product.name}</div>
+                        <div className="flex items-center space-x-3">
+                          <div className="avatar">
+                            <div className="mask mask-squircle w-12 h-12">
+                              <img
+                                src={product.image}
+                                alt="Avatar Tailwind CSS Component"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="font-bold">{product.name}</div>
+                          </div>
                         </div>
                       </td>
                       <td>{product.price}</td>
                       <td>{product.status}</td>
-                      <td><Link to={`/my-products/${product._id}`}>Edit</Link></td>
                     </tr>
                   ))}
                 </tbody>

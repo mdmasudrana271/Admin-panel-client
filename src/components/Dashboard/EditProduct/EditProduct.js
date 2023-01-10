@@ -16,7 +16,7 @@ const handleEditProduct =(data)=>{
         price: data.price,
       };
   
-      fetch(`http://localhost:5000/edit-product/${product._id}`, {
+      fetch(`https://admin-panel-server.vercel.app/edit-product/${product._id}`, {
         method: "PATCH",
         body: JSON.stringify(product),
       })

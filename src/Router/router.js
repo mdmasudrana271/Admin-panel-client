@@ -43,7 +43,7 @@ const router = createBrowserRouter([
             {
                 path: "/my-products/:id",
                 element: <EditProduct></EditProduct>,
-                loader:({params})=> fetch(`http://localhost:5000/products/${params.id}`)
+                loader:({params})=> fetch(`https://admin-panel-server.vercel.app/products/${params.id}`)
             },
             {
                 path: "login",

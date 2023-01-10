@@ -10,62 +10,57 @@ const AddProduct = () => {
     register,
     formState: { errors },
     handleSubmit,
+    reset
   } = useForm();
   const { time, user, isLoading, } = useContext(AuthContext);
   const navigate = useNavigate();
+  const imageHostKey = process.env.REACT_APP_IMGBB_API_KEY
 
   const handleAddProduct = (data) => {
-    // const image = data.image[0];
-    // const formData = new FormData();
-    // formData.append("image", image);
-    // const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
-    // fetch(url, {
-    //   method: "POST",
-    //   body: formData,
-    // })
-    //   .then((res) => res.json())
-    //   .then((imgData) => {
-    //     if (imgData.success) {
-    //       const product = {
-    //         name: data.product,
-    //         image: imgData.data.url,
-    //         price: data.price,
-    //         description: data.description,
-    //         sellerName: user.displayName,
-    //         time: time,
-    //         email: user.email,
-    //         status: "available",
-    //       };
-
-    //     }
-    //   });
-
-    const product = {
-      name: data.product,
-      price: data.price,
-      description: data.description,
-      sellerName: user.displayName,
-      time: time,
-      email: user.email,
-      status: "available",
-    };
-
-    fetch("http://localhost:5000/products", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(product),
+    const image = data.image[0];
+    const formData = new FormData()
+    formData.append('image',image)
+    const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`
+    fetch(url,{
+      method: 'POST',
+      body: formData
     })
-      .then((res) => res.json())
-      .then(data => {
-        console.log(data)
-        if (data.acknowledged) {
-          toast.success("Add Product Successfully");
-          navigate("/dashboard/my-products");
+    .then(res => res.json())
+    .then(imgData =>{
+      if(imgData.success){
+        const product = {
+          name: data.product,
+          image: imgData.data.url,
+          price:data.price,
+          description: data.description,
+          time: time,
+          email: user.email,
+          status: 'available'
         }
-      });
+
+        fetch('https://admin-panel-server.vercel.app/products',{
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify(product)
+        })
+        .then(res => res.json())
+        .then(data =>{
+          console.log(data)
+          if(data.acknowledged){
+            toast.success('Add Product Successfully')
+            navigate('/dashboard/my-products')
+            reset()
+          }
+        })
+
+      }
+
+    })
+
   };
+    
 
   if (isLoading) {
     return <Spinner></Spinner>;
@@ -94,7 +89,7 @@ const AddProduct = () => {
             </p>
           )}
         </div>
-        {/* <div className="form-control w-full">
+        <div className="form-control w-full">
           <label className="label">
             <span className="label-text">Photo</span>
           </label>
@@ -108,7 +103,7 @@ const AddProduct = () => {
               {errors.image?.message}
             </p>
           )}
-        </div> */}
+        </div>
         <div className="form-control w-full">
           <label className="label">
             <span className="label-text">Price</span>

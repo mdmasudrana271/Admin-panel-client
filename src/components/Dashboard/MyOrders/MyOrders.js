@@ -6,24 +6,23 @@ const MyOrders = () => {
   const { user } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
 
-//   useEffect(() => {
-//     fetch(
-//       `https://the-cozy-library-server.vercel.app/my-orders?email=${user.email}`,
-//       {
-//         headers: {
-//           "content-type": "application/json",
-//           authorization: `Bearer ${localStorage.getItem("bookAccessToken")}`,
-//         },
-//       }
-//     )
-//       .then((res) => res.json())
-//       .then((data) => {
-//         setProducts(data);
-//       });
-//   }, [user.email]);
+  useEffect(() => {
+    fetch(
+      `https://admin-panel-server.vercel.app/my-orders?email=${user.email}`,
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setProducts(data);
+      });
+  }, [user.email]);
 
   return (
-    <div>
+    <div className="h-[90vh]">
         <section>
           <section>
             <h2 className="text-3xl font-bold">My Orders</h2>
@@ -32,10 +31,10 @@ const MyOrders = () => {
                 <table className="table w-full">
                   <thead>
                     <tr>
+                      <th></th>
                       <th>Name</th>
                       <th>Price</th>
-                      <th>Meeting Location</th>
-                      <th>Payment</th>
+                      <th>Email</th>
                     </tr>
                   </thead>
                   <tbody>
